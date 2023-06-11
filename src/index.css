@@ -1,13 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&family=Roboto&family=Roboto+Mono:wght@500&display=swap");
+
+:root {
+  --very-light: #e0aaff;
+  --light: #c77dff;
+  --main: #9d4edd;
+  --dark: #7b2cbf;
+  --very-dark: #5a189a;
+  --very-dark-plus: #240046;
+  --very-darker: #10002b;
+
+  --font-color: #252525;
+}
+
 body {
+  background-color: var(--very-darker);
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Roboto Mono, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  color: #fff;
+  margin-top: 2.4rem;
+  height: calc(100vh - 7.2rem - 3 * 2.4rem);
+  display: flex;
+  gap: 2.4rem;
+  justify-content: center;
 }

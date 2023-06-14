@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LogoNavbar from "./components/LogoNavbar";
 import SearchBar from "./components/SearchBar";
-import "../../styles/Navbar.css";
+import "./Navbar.css";
 
 export default function Navbar() {
   const [searched, setSearched] = useState("");

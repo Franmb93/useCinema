@@ -14,13 +14,17 @@ function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchMovies = async () => {
       setIsLoading(true);
+      setError("");
       try {
         await fetch(
-          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMBD_KEY}&s=star-wars`
+          `http://www.omdbapi.com/?apikey=${
+            process.env.REACT_APP_OMBD_KEY
+          }&s=${searchQuery.replace(" ", "-")}}`
         )
           .then((res) => {
             if (res.ok) {
@@ -42,13 +46,19 @@ function App() {
       }
     };
 
+    if (searchQuery.length < 3) {
+      setIsLoading(false);
+      setError("");
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [searchQuery]);
 
   return (
     <>
       <Navbar>
-        <SearchBar />
+        <SearchBar query={searchQuery} setQuery={setSearchQuery} />
         <NumResults movies={movies} />
       </Navbar>
 

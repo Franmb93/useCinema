@@ -1,16 +1,11 @@
-import "./Movies.css";
-import { useState } from "react";
+import Movie from "./Movie";
 
-export default function Movies({ children }) {
-  const [isOpen, setIsOpen] = useState(true);
+export default function Movies({ movies }) {
   return (
-    <>
-      <div className="movies">
-        <div className="open__controller" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? "-" : "+"}
-        </div>
-        {isOpen && children}
-      </div>
-    </>
+    <ul className="list">
+      {movies?.map((movie) => (
+        <Movie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
   );
 }

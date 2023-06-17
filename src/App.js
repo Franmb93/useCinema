@@ -24,7 +24,7 @@ function App() {
         await fetch(
           `https://www.omdbapi.com/?apikey=${
             process.env.REACT_APP_OMBD_KEY
-          }&s=${searchQuery.replace(" ", "-")}}`
+          }&s=${searchQuery.replace(" ", "+")}}`
         )
           .then((res) => {
             if (res.ok) {

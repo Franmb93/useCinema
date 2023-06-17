@@ -22,7 +22,7 @@ function App() {
       setError("");
       try {
         await fetch(
-          `http://www.omdbapi.com/?apikey=${
+          `https://www.omdbapi.com/?apikey=${
             process.env.REACT_APP_OMBD_KEY
           }&s=${searchQuery.replace(" ", "-")}}`
         )

@@ -2,9 +2,20 @@ import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import Loader from "../Loader";
 
-export default function SelectedMovie({ selectedId, onCloseMovie }) {
+export default function SelectedMovie({
+  selectedId,
+  onCloseMovie,
+  onAddWatched,
+  watched,
+}) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const [alreadyWatched, setAlreadyWatched] = useState(false);
+
+  const userRatingIfRated = watched.find(
+    (movie) => movie.imdb === selectedId
+  )?.userRating;
 
   const {
     Title: title,
@@ -15,7 +26,36 @@ export default function SelectedMovie({ selectedId, onCloseMovie }) {
     Released: released,
     Actors: actors,
     Director: director,
+    Year: year,
   } = movie;
+
+  function checkIfWatched() {
+    const checkAlreadyWatched = watched.find(
+      (movie) => movie.imbdRating === selectedId
+    );
+
+    if (checkAlreadyWatched) {
+      setAlreadyWatched(true);
+    }
+  }
+
+  function handleAddWatched() {
+    if (checkIfWatched()) {
+      return;
+    }
+
+    const newWatchedMovie = {
+      imbdRating: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.replace("min", "")),
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,7 +65,7 @@ export default function SelectedMovie({ selectedId, onCloseMovie }) {
       );
       const data = await response.json();
 
-      console.log(data);
+      checkIfWatched();
       setMovie(data);
       setIsLoading(false);
     }
@@ -57,7 +97,25 @@ export default function SelectedMovie({ selectedId, onCloseMovie }) {
           </header>
 
           <section>
-            <StarRating maxRating={10} size={24}></StarRating>
+            <div className="rating">
+              {alreadyWatched ? (
+                <p>You rated this movie with {userRatingIfRated} ⭐️</p>
+              ) : (
+                <>
+                  <StarRating
+                    maxRating={10}
+                    size={24}
+                    rating={userRating}
+                    onSetRating={setUserRating}
+                  ></StarRating>
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAddWatched}>
+                      Add to list
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
             <p>
               <em>{plot}</em>
             </p>

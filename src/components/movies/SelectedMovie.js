@@ -14,7 +14,7 @@ export default function SelectedMovie({
   const [alreadyWatched, setAlreadyWatched] = useState(false);
 
   const userRatingIfRated = watched.find(
-    (movie) => movie.imdb === selectedId
+    (movie) => movie.imdbID === selectedId
   )?.userRating;
 
   const {
@@ -56,6 +56,18 @@ export default function SelectedMovie({
     onAddWatched(newWatchedMovie);
     onCloseMovie();
   }
+
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+
+      return function () {
+        document.title = "useCinema";
+      };
+    },
+    [title]
+  );
 
   useEffect(() => {
     setIsLoading(true);

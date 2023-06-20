@@ -10,6 +10,19 @@
   --color-red-dark: #e03131;
 }
 
+::-webkit-scrollbar {
+  background: var(--color-background-500);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-background-100);
+  border-radius: 15%;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-background-500);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -137,8 +150,6 @@ body {
 
 .list {
   list-style: none;
-  padding: 0.8rem 0;
-  overflow: scroll;
 }
 
 .list-watched {

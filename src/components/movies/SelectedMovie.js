@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import Loader from "../Loader";
 
@@ -13,10 +13,6 @@ export default function SelectedMovie({
   const [userRating, setUserRating] = useState(0);
   const [alreadyWatched, setAlreadyWatched] = useState(false);
 
-  const userRatingIfRated = watched.find(
-    (movie) => movie.imdbID === selectedId
-  )?.userRating;
-
   const {
     Title: title,
     Poster: poster,
@@ -29,15 +25,16 @@ export default function SelectedMovie({
     Year: year,
   } = movie;
 
-  function checkIfWatched() {
+  const checkIfWatched = useCallback(() => {
     const checkAlreadyWatched = watched.find(
       (movie) => movie.imbdRating === selectedId
     );
 
     if (checkAlreadyWatched) {
       setAlreadyWatched(true);
+      setUserRating(checkAlreadyWatched.userRating);
     }
-  }
+  }, [watched, selectedId]);
 
   function handleAddWatched() {
     if (checkIfWatched()) {
@@ -53,6 +50,7 @@ export default function SelectedMovie({
       runtime: Number(runtime.replace("min", "")),
       userRating,
     };
+
     onAddWatched(newWatchedMovie);
     onCloseMovie();
   }
@@ -83,7 +81,7 @@ export default function SelectedMovie({
     }
 
     getMovieDetails();
-  }, [selectedId]);
+  }, [selectedId, checkIfWatched]);
 
   return (
     <div className="details">
@@ -111,7 +109,7 @@ export default function SelectedMovie({
           <section>
             <div className="rating">
               {alreadyWatched ? (
-                <p>You rated this movie with {userRatingIfRated} ⭐️</p>
+                <p>You rated this movie with {userRating} ⭐️</p>
               ) : (
                 <>
                   <StarRating

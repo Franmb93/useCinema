@@ -15,7 +15,7 @@ function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("star");
   const [selectedId, setSelectedId] = useState(null);
 
   function handleSelectMovie(id) {
@@ -33,6 +33,20 @@ function App() {
   function handleDeleteWatch(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
+
+  useEffect(() => {
+    function scapeListener(e) {
+      if (e.key === "Escape") {
+        handleCloseMovie();
+      }
+    }
+
+    document.addEventListener("keydown", scapeListener);
+
+    return () => {
+      document.removeEventListener("keydown", scapeListener);
+    };
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();

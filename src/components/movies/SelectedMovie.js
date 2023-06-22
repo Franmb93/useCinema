@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import Loader from "../Loader";
+import { getSelectedMovieURL } from "../../constants";
+export { getSelectedMovieURL } from "../../constants";
 
 export default function SelectedMovie({
   selectedId,
@@ -70,9 +72,7 @@ export default function SelectedMovie({
   useEffect(() => {
     setIsLoading(true);
     async function getMovieDetails() {
-      const response = await fetch(
-        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMBD_KEY}&i=${selectedId}`
-      );
+      const response = await fetch(getSelectedMovieURL(selectedId));
       const data = await response.json();
 
       checkIfWatched();

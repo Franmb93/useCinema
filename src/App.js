@@ -10,12 +10,14 @@ import WatchedSummary from "./components/movies/WatchedSummary";
 import Loader from "./components/Loader";
 import ErrorCustom from "./components/Error";
 import SelectedMovie from "./components/movies/SelectedMovie";
+import { getMoviesURL } from "./constants";
+
 function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("star");
+  const [searchQuery, setSearchQuery] = useState("shrek");
   const [selectedId, setSelectedId] = useState(null);
 
   function handleSelectMovie(id) {
@@ -55,12 +57,7 @@ function App() {
       setIsLoading(true);
       setError("");
       try {
-        await fetch(
-          `https://www.omdbapi.com/?apikey=${
-            process.env.REACT_APP_OMBD_KEY
-          }&s=${searchQuery.replace(" ", "+")}}`,
-          { signal: controller.signal }
-        )
+        await fetch(getMoviesURL(searchQuery), { signal: controller.signal })
           .then((res) => {
             if (res.ok) {
               return res.json();
@@ -69,6 +66,7 @@ function App() {
             }
           })
           .then((data) => {
+            console.log(data);
             if (data.Response === "False") throw new Error(data.Error);
             setMovies(data.Search);
             setError("");

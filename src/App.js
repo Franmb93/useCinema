@@ -12,6 +12,7 @@ import ErrorCustom from "./components/Error";
 import SelectedMovie from "./components/movies/SelectedMovie";
 import { getMoviesURL } from "./constants";
 import InfoMessage from "./components/InfoMessage";
+import { useKey } from "./hooks/useKey";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -23,6 +24,8 @@ function App() {
     const localWatched = localStorage.getItem("watched");
     return localWatched ? JSON.parse(localWatched) : [];
   });
+
+  useKey("Escape", handleCloseMovie);
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -43,20 +46,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("watched", JSON.stringify(watched));
   }, [watched]);
-
-  useEffect(() => {
-    function scapeListener(e) {
-      if (e.key === "Escape") {
-        handleCloseMovie();
-      }
-    }
-
-    document.addEventListener("keydown", scapeListener);
-
-    return () => {
-      document.removeEventListener("keydown", scapeListener);
-    };
-  }, []);
 
   useEffect(() => {
     const controller = new AbortController();

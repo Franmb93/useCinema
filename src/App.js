@@ -14,11 +14,14 @@ import { getMoviesURL } from "./constants";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("shrek");
   const [selectedId, setSelectedId] = useState(null);
+  const [watched, setWatched] = useState(function () {
+    const localWatched = localStorage.getItem("watched");
+    return localWatched ? JSON.parse(localWatched) : [];
+  });
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -33,8 +36,12 @@ function App() {
   }
 
   function handleDeleteWatch(id) {
-    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+    setWatched((watched) => watched.filter((movie) => movie.imbdId !== id));
   }
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
 
   useEffect(() => {
     function scapeListener(e) {
@@ -66,7 +73,6 @@ function App() {
             }
           })
           .then((data) => {
-            console.log(data);
             if (data.Response === "False") throw new Error(data.Error);
             setMovies(data.Search);
             setError("");

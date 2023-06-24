@@ -44,7 +44,8 @@ export default function SelectedMovie({
     }
 
     const newWatchedMovie = {
-      imbdRating: selectedId,
+      imbdId: selectedId,
+      imbdRating: imdbRating,
       title,
       year,
       poster,

@@ -11,12 +11,13 @@ import Loader from "./components/Loader";
 import ErrorCustom from "./components/Error";
 import SelectedMovie from "./components/movies/SelectedMovie";
 import { getMoviesURL } from "./constants";
+import InfoMessage from "./components/InfoMessage";
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("shrek");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [watched, setWatched] = useState(function () {
     const localWatched = localStorage.getItem("watched");
@@ -113,6 +114,9 @@ function App() {
           {error && <ErrorCustom error={error} />}
           {!isLoading && !error && (
             <Movies movies={movies} onSelectMovie={handleSelectMovie} />
+          )}
+          {!isLoading && !error && !movies.length && (
+            <InfoMessage>Please search for some movies 📽️</InfoMessage>
           )}
         </Box>
 
